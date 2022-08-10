@@ -118,3 +118,11 @@ font-family: 'Alegreya SC', serif;
     color: rgb(0, 100, 5);
     font-family: 'IM Fell English', serif;
 }
+
+.redText{
+    color: rgb(131, 0, 0);
+}
+
+.greenText{
+    color: rgb(0, 73, 0);
+}

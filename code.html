@@ -49,7 +49,7 @@
                         <a class="nav-link active" aria-current="page">The Code</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" target="_blank" href="https://github.com/cortiz313/Rewind">Git Repo</a>
+                        <a class="nav-link" target="_blank" href="https://github.com/cortiz313/tacocat">Git Repo</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" target="_blank" href="#">About</a>
@@ -66,38 +66,81 @@
             <div class="row row-cols-1 row-cols-lg-2">
                 <div class="col-lg-8">
                     <pre class="line-numbers"> <code class="language-javascript">
-                        // Get the string from the page
-// Controller function
+                        // Get user input
 function getValues(){
 
+    // make alert invisible
     document.getElementById("alert").classList.add("invisible");
+
+    //get user string from page
     let userString = document.getElementById("userString").value;
-    let revString = reverseString(userString);
-    displayString(revString);
+
+    // check for a palindrome
+    let returnObj = checkForPalindrome(userString);
+
+    // display our message to the screen
+    displayMessage(returnObj);
 }
 
-// Reverse the string
-// Logic Function
-function reverseString(userString){
+// check if string is a palindrome
+function checkForPalindrome(userString){
 
-    let revString = "";
+    // need to remove all special characters and convert all char to lower case for comparison
 
-    // reverse a string using a for loop
-    for(let i = userString.length -1; i >= 0; i--)
+    // convert to lowercase
+    userString = userString.toLowerCase();
+
+    // remove spaces and special characters
+    let regex = /[^a-z0-9]/gi;
+    userString = userString.replace(regex,"");
+
+    let revString = [];
+    let returnObj = {};
+
+    // build the reverse string
+    for(let i = userString.length - 1; i >= 0; i--){
         revString += userString[i];
-    return revString;
+    }
+
+    // if the reverse string is the same as userstring it is a palindrome
+    if(revString == userString){
+
+        // set the msg, and also change classes to alter color of alert box to green
+        returnObj.msg = "Well Done! You entered a Palindrome!"
+        document.getElementById("alert").classList.add("alert-success");
+        document.getElementById("alert").classList.remove("alert-danger");
+        document.getElementById("msg").classList.remove("redText");
+        document.getElementById("msg").classList.add("greenText");
+        document.getElementById("alertHeader").classList.remove("redText");
+        document.getElementById("alertHeader").classList.add("greenText");
+        
+    }
+    else{
+
+        // set the msg, and also change classes to alter color of alert box to red
+        returnObj.msg = "Sorry! You did not enter a Palindrome!"
+        document.getElementById("alert").classList.remove("alert-success");
+        document.getElementById("alert").classList.add("alert-danger");
+        document.getElementById("msg").classList.remove("greenText");
+        document.getElementById("msg").classList.add("redText");
+        document.getElementById("alertHeader").classList.remove("greenText");
+        document.getElementById("alertHeader").classList.add("redText");
+    }
+
+    returnObj.reversed = revString;
+
+    return returnObj;
 
 }
 
-// Display the reversed string to the user
-// View Function
-function displayString(revString){
+// display a message to the user
+function displayMessage(returnObj){
 
-    // Write to the page
-    document.getElementById("msg").innerHTML = `Your reversed string is: ${revString} `;
-
-    // Show the alert box
+    // display the resulting info to the user
+    document.getElementById("alertHeader").innerHTML = returnObj.msg;
+    document.getElementById("msg").innerHTML = `Your phrase reversed is ${returnObj.reversed}`
     document.getElementById("alert").classList.remove("invisible");
+
 }
                     </code>
                     </pre> 
@@ -105,17 +148,18 @@ function displayString(revString){
                 <div class="col-lg-4">
                     <p>The Code is structured in three functions.</p>
                     <h5>getValues()</h5>
-                    <p>getValues is a controller function that gets the string value from the user and passes the string to the reverseString() function. The reversed string that is returned
-                        from that function is then sent to the displayString() function.
+                    <p>getValues is a controller function that gets the string value from the user and passes the string to the checkForPalindrome() function. That function returns an object which
+                        contains info on if the string is a palindrome or not, and that is then sent to the displayMessage() function.
                     </p>
-                    <h5>reverseString()</h5>
-                    <p> reverseString is a logic function that takes a parameter of the userString and returns it in reverse order. With the use of a for loop, we 
-                        concatenate the characters from userString to the variable revString, by starting the for loop at the index of the last character and moving backwards
-                        through the string. We then return the string. 
+                    <h5>checkForPalindrome()</h5>
+                    <p> checkForPalindrome is a logic function that receives a string, and then creates a reversed version of it.
+                        It then compares those two strings to see if they are the same. If they are, we have a palindrome, and return an object
+                        stating this information as well as the reversed string. If not, we return an object stating the opposite. We 
+                        also adjust the alert color based on the results.
                     </p>
                     <h5>displayString()</h5>
-                    <p> displayString is a display function that receives a reversed string as a parameter and uses the elementID "msg" to pass this string as
-                        output to the user. We also remove the class "invisible" from the alert so that it can be seen by the user.
+                    <p> displayString is a display function that receives the object containing the palindrome message as well as
+                        the reversed string, and use that to display the resulting information to the user.
                     </p>
                 </div>
 
