@@ -1,5 +1,5 @@
 :root {
-    --primary-color: #0274c0;
+    --primary-color: #b16a00;
     --secondary-color: #625e66;
     --dark-color: #292929;
     --white-color: #e7e7e7;
@@ -99,6 +99,7 @@ img {
 
 .checklist>li i {
     color: rgb(228, 115, 9);
+    
 }
 
 code[class*="language-"],
